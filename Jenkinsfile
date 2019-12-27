@@ -14,7 +14,7 @@ pipeline {
             steps {
                 //def scannerHome = tool 'Sonar-Scanner';
                 //withSonarQubeEnv('sonar') { // If you have configured more than one global server connection, you can specify its name
-                sh "${scannerHome} -Dsonar.projectKey=python   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
+                sh "${scannerHome} -Dsonar.projectKey=py   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
                 } 
             }
         stage("Quality Gate") {
