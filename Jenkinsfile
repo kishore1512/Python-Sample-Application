@@ -69,7 +69,6 @@ pipeline {
                                     echo "But current version $APP_VERSION deployment failed and restored to previous version $DeployedAppVersion"
                                     exit 1
                                 fi
-                                #Display AWS EBS endpoint
                                 printf "Deployed the new version $DeployedAppVersion successfully"
                                 break 2
                             else
