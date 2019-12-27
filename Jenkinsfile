@@ -19,7 +19,7 @@ pipeline {
             }
         stage("Quality Gate") {
             steps {
-                bash '''
+                sh """
                     #!/bin/bash 
                     export AWS_DEFAULT_REGION="us-east-1"
                     export APP_NAME="ZUCK"
@@ -83,7 +83,7 @@ pipeline {
                                 break
                             fi
                         done
-                '''    
+                """    
             }
         }
     }
