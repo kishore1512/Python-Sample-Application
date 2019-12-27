@@ -19,8 +19,7 @@ pipeline {
             }
         stage("Quality Gate") {
             steps {
-                bash '''
-                    #!/bin/bash 
+                sh '''
                     export AWS_DEFAULT_REGION="us-east-1"
                     export APP_NAME="ZUCK"
                     export ENV_NAME="python-sonar-sample"
