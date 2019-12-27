@@ -14,7 +14,7 @@ pipeline {
             steps {
                 //def scannerHome = tool 'Sonar-Scanner';
                 //withSonarQubeEnv('sonar') { // If you have configured more than one global server connection, you can specify its name
-                sh "${scannerHome} -Dsonar.projectKey=InspiredByZuck   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
+                sh "${scannerHome} -Dsonar.projectKey=py   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
                 } 
             }
         stage("Quality Gate") {
@@ -22,10 +22,10 @@ pipeline {
                 sh ''' 
                     export AWS_DEFAULT_REGION="us-east-1"
                     export APP_NAME="ZUCK"
-                    export ENV_NAME="InspiredByZuck"
+                    export ENV_NAME="python-sonar-sample"
                     export S3_BUCKET="zuck-dev"
                     export APP_VERSION=`git rev-parse --short HEAD`
-                    fail_check () {     
+                    fail_check () {
                         if [ $? -ne 0 ]
                         then
                             echo "Failed"
@@ -69,6 +69,7 @@ pipeline {
                                     echo "But current version $APP_VERSION deployment failed and restored to previous version $DeployedAppVersion"
                                     exit 1
                                 fi
+                                #Display AWS EBS endpoint
                                 printf "Deployed the new version $DeployedAppVersion successfully"
                                 break 2
                             else
@@ -81,7 +82,22 @@ pipeline {
                                 break
                             fi
                         done
+                    else
+                        echo "Environment is not healthy, checking after 1 minute"
+                        sleep 60
+                        if [ $j -eq 30 ]
+                        then
+                            if [[ "$HealthStatus" == "Info" ]] || [[ "$HealthStatus" == "Pending" ]]
+                            then
+                                j=1
+                                echo "Environment is still in $HealthStatus state"
+                            else
+                                echo "Environment is in $HealthStatus state"
+                                exit 1
+                            fi
+                        fi
                     fi
+                    done
                 '''    
             }
         }
