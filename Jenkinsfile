@@ -7,22 +7,22 @@ pipeline {
     stages {
         //stage('clone') {
         //    steps {
-        //        git branch: 'kishore', url: 'https://github.com/kishore1512/Python-Sample-Application.git'
+        //        git branch: 'kishore', url: 'https://github.com/kishore1512/ZUCK.git'
         //    }
         //}
         stage('SonarQube analysis') {
             steps {
                 //def scannerHome = tool 'Sonar-Scanner';
                 //withSonarQubeEnv('sonar') { // If you have configured more than one global server connection, you can specify its name
-                sh "${scannerHome} -Dsonar.projectKey=py   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
+                sh "${scannerHome} -Dsonar.projectKey=InspiredByZuck   -Dsonar.sources=.   -Dsonar.host.url=https://sonar.kishorereddy.tk   -Dsonar.login=3d9faad0dc57b404bcf5a97bca5a3c9ae3b7720f"
                 } 
             }
         stage("Quality Gate") {
             steps {
-                sh '''
+                sh ''' 
                     export AWS_DEFAULT_REGION="us-east-1"
                     export APP_NAME="ZUCK"
-                    export ENV_NAME="python-sonar-sample"
+                    export ENV_NAME="InspiredByZuck"
                     export S3_BUCKET="zuck-dev"
                     export APP_VERSION=`git rev-parse --short HEAD`
                     fail_check () {     
@@ -82,6 +82,7 @@ pipeline {
                                 break
                             fi
                         done
+                    fi
                 '''    
             }
         }
